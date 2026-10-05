@@ -41,7 +41,7 @@ export const services = [
 ];
 
 export const steps = [
-  { title: 'Me escribís', description: 'Por WhatsApp, contándome qué necesitás traducir y para cuándo.' },
+  { title: 'Me escribís', description: 'Por WhatsApp o mail, contándome qué necesitás traducir y para cuándo.' },
   { title: 'Presupuesto', description: 'Te paso precio y plazo de entrega, sin compromiso.' },
   { title: 'Traducción', description: 'Trabajo el texto cuidando sentido, tono y terminología.' },
   { title: 'Entrega', description: 'Recibís el archivo listo, con una revisión final incluida.' },
@@ -77,7 +77,7 @@ export const faqs = [
   {
     question: '¿Cómo pido un presupuesto?',
     answer:
-      'Escribime por WhatsApp contando de qué se trata el texto, la cantidad de palabras o páginas y para cuándo lo necesitás. Si podés, mandame el archivo.',
+      'Escribime por WhatsApp o completá el formulario de contacto contando de qué se trata el texto, la cantidad de palabras o páginas y para cuándo lo necesitás. Si podés, mandame el archivo (en el formulario, como link de Drive o WeTransfer).',
   },
   {
     question: '¿Cuánto tarda una traducción?',

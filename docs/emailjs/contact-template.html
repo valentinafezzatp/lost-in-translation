@@ -1,0 +1,72 @@
+<!--
+  Template "Contact Us" de EmailJS.
+  Pegar en: Email Templates → Contact Us → Content → Edit Content → modo código (<>).
+  Variables que manda el formulario (src/components/ContactCta.astro):
+  name, email, service, length, deadline, message, file_link
+  Tablas + estilos inline a propósito: es lo único que respetan Gmail y Outlook.
+-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f2eee8;padding:32px 12px;font-family:Helvetica,Arial,sans-serif;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#ffffff;border:2px solid #5a0a2e;border-radius:20px;overflow:hidden;">
+
+        <!-- Encabezado -->
+        <tr>
+          <td style="background:#ff66c1;padding:28px 32px;border-bottom:2px solid #5a0a2e;">
+            <p style="margin:0 0 6px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#5a0a2e;font-weight:bold;">Lost in Translation</p>
+            <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:28px;line-height:1.2;color:#5a0a2e;">Nueva consulta de {{name}}</h1>
+          </td>
+        </tr>
+
+        <!-- Servicio destacado -->
+        <tr>
+          <td style="padding:24px 32px 8px;">
+            <span style="display:inline-block;background:#c7f78a;color:#5a0a2e;border:2px solid #5a0a2e;border-radius:999px;padding:6px 14px;font-size:14px;font-weight:bold;">{{service}}</span>
+          </td>
+        </tr>
+
+        <!-- Datos -->
+        <tr>
+          <td style="padding:8px 32px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:15px;color:#5a0a2e;">
+              <tr>
+                <td style="padding:10px 0;border-bottom:1px solid #f2eee8;width:40%;font-weight:bold;">Email</td>
+                <td style="padding:10px 0;border-bottom:1px solid #f2eee8;"><a href="mailto:{{email}}" style="color:#c2187a;">{{email}}</a></td>
+              </tr>
+              <tr>
+                <td style="padding:10px 0;border-bottom:1px solid #f2eee8;font-weight:bold;">Extensión</td>
+                <td style="padding:10px 0;border-bottom:1px solid #f2eee8;">{{length}}</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 0;border-bottom:1px solid #f2eee8;font-weight:bold;">Plazo</td>
+                <td style="padding:10px 0;border-bottom:1px solid #f2eee8;">{{deadline}}</td>
+              </tr>
+              <tr>
+                <td style="padding:10px 0;font-weight:bold;">Archivo</td>
+                <td style="padding:10px 0;word-break:break-all;">{{file_link}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Mensaje -->
+        <tr>
+          <td style="padding:16px 32px 8px;">
+            <p style="margin:0 0 8px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#c2187a;font-weight:bold;">Mensaje</p>
+            <div style="background:#f7f4d5;border-left:4px solid #ff66c1;border-radius:8px;padding:16px 18px;font-size:15px;line-height:1.6;color:#5a0a2e;white-space:pre-wrap;">{{message}}</div>
+          </td>
+        </tr>
+
+        <!-- Acción -->
+        <tr>
+          <td style="padding:24px 32px 32px;">
+            <a href="mailto:{{email}}?subject=Presupuesto%20de%20traducci%C3%B3n" style="display:inline-block;background:#5a0a2e;color:#c7f78a;text-decoration:none;font-weight:bold;font-size:15px;padding:12px 24px;border-radius:999px;">Responder a {{name}}</a>
+            <p style="margin:14px 0 0;font-size:13px;color:#5a0a2e;opacity:.7;">También podés tocar "Responder": el mail le llega directo a {{email}}.</p>
+          </td>
+        </tr>
+
+      </table>
+      <p style="margin:16px 0 0;font-size:12px;color:#5a0a2e;opacity:.6;">Enviado desde el formulario de contacto del sitio.</p>
+    </td>
+  </tr>
+</table>

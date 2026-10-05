@@ -1,30 +1,148 @@
 ---
 import WhatsAppIcon from './WhatsAppIcon.astro';
-import { site } from '../site.config';
+import { site, services } from '../site.config';
 import { waLink } from '../lib/whatsapp';
 ---
 
-<section class="cta">
+<section class="cta" id="contacto">
   <div class="container inner">
-    <span class="eyebrow">let's talk!</span>
-    <h2>¿Tenés un texto para traducir?</h2>
-    <p>Sin formularios ni vueltas: me escribís por WhatsApp y te paso el presupuesto personalmente.</p>
-    <a class="btn" href={waLink(site.whatsappMessage)} target="_blank" rel="noopener">
-      <WhatsAppIcon /> Escribir por WhatsApp
-    </a>
+    <div class="intro">
+      <span class="eyebrow">let's talk!</span>
+      <h2>¿Tenés un texto para traducir?</h2>
+      <p>Escribime por WhatsApp o dejame tu consulta acá y te paso el presupuesto personalmente.</p>
+      <a class="btn wa" href={waLink(site.whatsappMessage)} target="_blank" rel="noopener">
+        <WhatsAppIcon /> Escribir por WhatsApp
+      </a>
+    </div>
+
+    <form class="card" id="quote-form" novalidate>
+      <h3>Pedí tu presupuesto por mail</h3>
+
+      <div class="row">
+        <label>
+          Nombre
+          <input name="name" type="text" autocomplete="name" required />
+        </label>
+        <label>
+          Email
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+      </div>
+
+      <label>
+        Tipo de traducción
+        <select name="service" required>
+          <option value="" disabled selected>Elegí una opción</option>
+          {services.map((s) => <option>{s.title}</option>)}
+          <option>Otro</option>
+        </select>
+      </label>
+
+      <div class="row">
+        <label>
+          Palabras o páginas <span class="opt">(aprox.)</span>
+          <input name="length" type="text" placeholder="Ej: 3 páginas" />
+        </label>
+        <label>
+          Plazo
+          <input name="deadline" type="text" placeholder="Ej: viernes 10/10" />
+        </label>
+      </div>
+
+      <label>
+        Mensaje
+        <textarea name="message" rows="4" required placeholder="Contame de qué se trata el texto"></textarea>
+      </label>
+
+      <label>
+        Link al archivo <span class="opt">(opcional: Drive, WeTransfer…)</span>
+        <input name="file_link" type="url" placeholder="https://" />
+      </label>
+
+      <!-- Honeypot: invisible para personas, los bots lo completan -->
+      <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <button class="btn btn-primary" type="submit">Enviar consulta</button>
+      <p class="status" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
+
+<script>
+  import { sendQuoteRequest } from '../lib/emailjs';
+
+  const form = document.querySelector<HTMLFormElement>('#quote-form');
+  const status = form?.querySelector<HTMLParagraphElement>('.status');
+  const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!status || !button) return;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const data = new FormData(form);
+    const field = (key: string) => String(data.get(key) ?? '').trim();
+
+    // Bot detectado: se simula éxito sin gastar un request
+    if (field('company')) {
+      form.reset();
+      return;
+    }
+
+    button.disabled = true;
+    status.dataset.state = '';
+    status.textContent = 'Enviando…';
+
+    try {
+      await sendQuoteRequest({
+        name: field('name'),
+        email: field('email'),
+        service: field('service'),
+        // Los opcionales llegan con guion para que el mail no quede con huecos
+        length: field('length') || '—',
+        deadline: field('deadline') || '—',
+        message: field('message'),
+        file_link: field('file_link') || '—',
+      });
+      form.reset();
+      status.dataset.state = 'ok';
+      status.textContent = '¡Listo! Recibí tu consulta y te respondo por mail a la brevedad.';
+    } catch (error) {
+      console.error(error);
+      status.dataset.state = 'error';
+      status.textContent = 'No se pudo enviar. Probá de nuevo o escribime por WhatsApp.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
 
 <style>
   .cta {
     padding-block: clamp(4rem, 10vw, 6rem);
     background: var(--lime);
     border-top: 2px solid var(--ink);
-    text-align: center;
   }
 
   .inner {
-    max-width: 44rem;
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  @media (max-width: 52rem) {
+    .inner {
+      grid-template-columns: 1fr;
+    }
+
+    .intro {
+      text-align: center;
+    }
   }
 
   /* Sobre lima, el acento magenta no contrasta: se usa la tinta */
@@ -32,13 +150,104 @@ import { waLink } from '../lib/whatsapp';
     color: var(--ink);
   }
 
-  p {
+  .intro p {
     font-size: 1.15rem;
   }
 
-  .btn {
+  .wa {
     margin-top: 1rem;
     background: var(--ink);
     color: var(--lime);
+  }
+
+  .card {
+    display: grid;
+    gap: 1rem;
+    padding: clamp(1.25rem, 4vw, 2rem);
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .card h3 {
+    margin: 0;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1rem;
+  }
+
+  label {
+    display: grid;
+    gap: 0.3rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .opt {
+    font-weight: 400;
+    opacity: 0.75;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 2px solid var(--ink);
+    border-radius: 0.75rem;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 400;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline-offset: 1px;
+  }
+
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .card .btn {
+    justify-self: start;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .card .btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .status {
+    margin: 0;
+    min-height: 1.5em;
+    font-weight: 500;
+  }
+
+  .status[data-state='ok'] {
+    color: #1f6b2a;
+  }
+
+  .status[data-state='error'] {
+    color: var(--magenta);
   }
 </style>

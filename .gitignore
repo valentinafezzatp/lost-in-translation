@@ -1,0 +1,12 @@
+# dependencias y build
+node_modules/
+dist/
+.astro/
+
+# variables de entorno (EmailJS, etc.)
+.env
+.env.*
+!.env.example
+
+# sistema
+.DS_Store
