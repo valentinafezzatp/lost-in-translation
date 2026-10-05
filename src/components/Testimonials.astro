@@ -1,0 +1,75 @@
+---
+import { testimonials } from '../site.config';
+---
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">kind words</span>
+      <h2>Lo que dicen <em>clientes</em></h2>
+    </div>
+
+    <ul class="notes">
+      {
+        testimonials.map(({ quote, author, detail }) => (
+          <li class="note">
+            <blockquote>“{quote}”</blockquote>
+            <p class="author">
+              {author} · <span>{detail}</span>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .notes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .note {
+    padding: 2rem;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  /* Tonos y rotaciones alternadas, efecto "notitas pegadas" */
+  .note:nth-child(3n + 1) {
+    background: var(--blush);
+    transform: rotate(-1.5deg);
+  }
+
+  .note:nth-child(3n + 2) {
+    background: var(--lime);
+    transform: rotate(1deg);
+  }
+
+  .note:nth-child(3n) {
+    background: #fff;
+    transform: rotate(-0.5deg);
+  }
+
+  blockquote {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1.3;
+  }
+
+  .author {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .author span {
+    font-weight: 400;
+  }
+</style>

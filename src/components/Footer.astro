@@ -1,0 +1,67 @@
+---
+import { nav, site } from '../site.config';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container inner">
+    <div>
+      <p class="logo">{site.name}</p>
+      <p class="tagline">{site.tagline}</p>
+    </div>
+    <ul>
+      {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+    </ul>
+  </div>
+  <p class="container legal">© {year} {site.name}</p>
+</footer>
+
+<style>
+  .footer {
+    padding-block: 3.5rem 2rem;
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .logo {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+  }
+
+  .tagline {
+    color: var(--pink);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .legal {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(242 238 232 / 0.25);
+    font-size: 0.875rem;
+  }
+</style>

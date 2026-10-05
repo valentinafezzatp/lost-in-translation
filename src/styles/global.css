@@ -1,0 +1,193 @@
+:root {
+  /* Marca: colores exactos del logo */
+  --pink: #ff66c1;
+  --lime: #c7f78a;
+
+  /* Soporte */
+  --ink: #5a0a2e; /* texto: ~12:1 sobre crema, ~5:1 sobre rosa */
+  --magenta: #c2187a; /* acentos de texto sobre crema (~4.9:1) */
+  --blush: #ffd9ef;
+  --cream: #f2eee8;
+  --beige: #f7f4d5;
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-hand: 'Caveat', 'Comic Sans MS', cursive;
+
+  --radius: 1.25rem;
+  --container: 72rem;
+  --shadow: 6px 6px 0 var(--ink);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  /* clip (no hidden) para no romper el header sticky */
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+}
+
+h3 {
+  font-size: 1.6rem;
+}
+
+h1 em,
+h2 em {
+  color: var(--magenta);
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+:focus-visible {
+  outline: 3px solid var(--magenta);
+  outline-offset: 3px;
+}
+
+/* Utilidades */
+.container {
+  width: min(100% - 2.5rem, var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(4rem, 10vw, 7rem);
+}
+
+.section-head {
+  max-width: 40rem;
+  margin-bottom: 3rem;
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-hand);
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--magenta);
+  margin-bottom: 0.4rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.btn-primary {
+  background: var(--pink);
+  color: var(--ink);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: var(--lime);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.gingham {
+  background-color: var(--cream);
+  background-image:
+    linear-gradient(90deg, rgb(255 102 193 / 0.22) 50%, transparent 50%),
+    linear-gradient(rgb(255 102 193 / 0.22) 50%, transparent 50%);
+  background-size: 28px 28px;
+}
+
+.photo-placeholder {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(160deg, var(--blush), var(--lime));
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--ink);
+  color: var(--cream);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

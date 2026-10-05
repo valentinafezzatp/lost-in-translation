@@ -1,0 +1,44 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { site } from '../site.config';
+import { waLink } from '../lib/whatsapp';
+---
+
+<section class="cta">
+  <div class="container inner">
+    <span class="eyebrow">let's talk!</span>
+    <h2>¿Tenés un texto para traducir?</h2>
+    <p>Sin formularios ni vueltas: me escribís por WhatsApp y te paso el presupuesto personalmente.</p>
+    <a class="btn" href={waLink(site.whatsappMessage)} target="_blank" rel="noopener">
+      <WhatsAppIcon /> Escribir por WhatsApp
+    </a>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-block: clamp(4rem, 10vw, 6rem);
+    background: var(--lime);
+    border-top: 2px solid var(--ink);
+    text-align: center;
+  }
+
+  .inner {
+    max-width: 44rem;
+  }
+
+  /* Sobre lima, el acento magenta no contrasta: se usa la tinta */
+  .eyebrow {
+    color: var(--ink);
+  }
+
+  p {
+    font-size: 1.15rem;
+  }
+
+  .btn {
+    margin-top: 1rem;
+    background: var(--ink);
+    color: var(--lime);
+  }
+</style>

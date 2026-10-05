@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import PostCard from './PostCard.astro';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+{
+  posts.length > 0 && (
+    <section class="section blog gingham">
+      <div class="container">
+        <div class="head">
+          <div>
+            <span class="eyebrow">from the blog</span>
+            <h2>Tips, curiosidades y <em>más</em></h2>
+          </div>
+          <a class="btn btn-ghost" href="/blog">Ver todo</a>
+        </div>
+        <div class="posts">
+          {posts.map((post) => <PostCard post={post} />)}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .blog {
+    border-block: 2px solid var(--ink);
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .head h2 {
+    margin: 0;
+  }
+
+  .head .btn {
+    background: var(--cream);
+  }
+
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: 2rem;
+  }
+</style>

@@ -1,0 +1,85 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { nav, site } from '../site.config';
+import { waLink } from '../lib/whatsapp';
+---
+
+<header class="header">
+  <div class="container inner">
+    <a class="logo" href="/">{site.name}</a>
+    <nav aria-label="Principal">
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn btn-primary cta" href={waLink(site.whatsappMessage)} target="_blank" rel="noopener">
+      <WhatsAppIcon size={18} /> Escribime
+    </a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgb(242 238 232 / 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 4.5rem;
+  }
+
+  /* Wordmark en texto: el logo.jpeg es cuadrado y con fondo, no entra en un header */
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    text-decoration: none;
+    text-transform: lowercase;
+    white-space: nowrap;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav a {
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--magenta);
+  }
+
+  .cta {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 820px) {
+    nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 440px) {
+    .logo {
+      font-size: 1.3rem;
+    }
+
+    .cta {
+      padding: 0.5rem 0.9rem;
+    }
+  }
+</style>

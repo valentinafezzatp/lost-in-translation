@@ -1,0 +1,60 @@
+---
+import { faqs } from '../site.config';
+---
+
+<section id="preguntas" class="section">
+  <div class="container narrow">
+    <div class="section-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>Preguntas <em>frecuentes</em></h2>
+    </div>
+
+    {
+      faqs.map(({ question, answer }) => (
+        <details>
+          <summary>{question}</summary>
+          <p>{answer}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .narrow {
+    max-width: 48rem;
+  }
+
+  details {
+    border-bottom: 2px solid var(--ink);
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: '+';
+    color: var(--magenta);
+    transition: transform 0.2s;
+  }
+
+  details[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  details p {
+    padding-bottom: 1rem;
+  }
+</style>
