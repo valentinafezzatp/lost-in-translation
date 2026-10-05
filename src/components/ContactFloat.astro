@@ -1,0 +1,59 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import MailIcon from './MailIcon.astro';
+import { site } from '../site.config';
+import { waLink } from '../lib/whatsapp';
+---
+
+<div class="floats">
+  <a class="float mail" href="/#contacto" aria-label="Pedir presupuesto por mail">
+    <MailIcon size={24} />
+  </a>
+  <a
+    class="float wa"
+    href={waLink(site.whatsappMessage)}
+    target="_blank"
+    rel="noopener"
+    aria-label="Escribir por WhatsApp"
+  >
+    <WhatsAppIcon size={30} />
+  </a>
+</div>
+
+<style>
+  .floats {
+    position: fixed;
+    right: 1.25rem;
+    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    z-index: 20;
+    display: grid;
+    justify-items: center;
+    gap: 0.75rem;
+  }
+
+  .float {
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    color: var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform 0.15s;
+  }
+
+  .float:hover {
+    transform: translate(-2px, -2px) rotate(-6deg);
+  }
+
+  .wa {
+    width: 3.75rem;
+    height: 3.75rem;
+    background: var(--pink);
+  }
+
+  .mail {
+    width: 3.25rem;
+    height: 3.25rem;
+    background: var(--lime);
+  }
+</style>
