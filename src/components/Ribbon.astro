@@ -4,13 +4,21 @@ const words = ['inglés ⇄ español', 'documentos', 'textos académicos', 'cont
 const loop = [...words, ...words];
 ---
 
-<div class="ribbon" aria-hidden="true">
-  <div class="track">
-    {loop.map((word) => <span>{word} <i>✦</i></span>)}
+<div class="wrap" aria-hidden="true">
+  <div class="ribbon">
+    <div class="track">
+      {loop.map((word) => <span>{word} <i>✦</i></span>)}
+    </div>
   </div>
 </div>
 
 <style>
+  /* Recorta lo que la cinta sobresale a los costados. Safari iOS ignora el
+     overflow-x del body y achica toda la página si algo se pasa de ancho. */
+  .wrap {
+    overflow-x: clip;
+  }
+
   .ribbon {
     overflow: hidden;
     padding-block: 0.9rem;
