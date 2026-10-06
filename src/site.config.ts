@@ -9,7 +9,7 @@ export const site = {
   description:
     'Traducciones inglés ⇄ español de documentos personales, académicos, jurídicos y técnicos, y revisión de textos. Presupuestos por WhatsApp.',
   // Formato internacional sin +, espacios ni guiones. Ej: 5491112345678
-  whatsapp: '5491100000000',
+  whatsapp: '5491136070161',
   whatsappMessage: '¡Hola! Quiero pedir un presupuesto de traducción.',
 };
 
