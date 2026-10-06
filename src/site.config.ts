@@ -7,7 +7,7 @@ export const site = {
   since: 2024,
   tagline: 'Traducciones inglés ⇄ español',
   description:
-    'Traducciones inglés ⇄ español cuidadas al detalle: documentos, textos académicos, contenido web y revisión. Presupuestos por WhatsApp.',
+    'Traducciones inglés ⇄ español de documentos personales, académicos, jurídicos y técnicos, y revisión de textos. Presupuestos por WhatsApp.',
   // Formato internacional sin +, espacios ni guiones. Ej: 5491112345678
   whatsapp: '5491100000000',
   whatsappMessage: '¡Hola! Quiero pedir un presupuesto de traducción.',
@@ -25,19 +25,20 @@ export const nav = [
 export const services = [
   {
     title: 'Documentos personales',
-    description: 'Partidas, certificados, títulos y analíticos, con precisión en nombres, fechas y términos.',
+    description: 'Partidas, pasaportes, certificados y demás documentos personales.',
   },
   {
-    title: 'Textos académicos',
-    description: 'Papers, abstracts, tesis y material de estudio, respetando la terminología de cada disciplina.',
+    title: 'Documentos académicos',
+    description: 'Programas de estudio, certificados analíticos, diplomas y demás documentación educativa.',
   },
   {
-    title: 'Contenido web y redes',
-    description: 'Sitios, newsletters y posteos que suenan naturales en el otro idioma, no traducidos.',
+    title: 'Documentos jurídicos y técnicos',
+    description:
+      'Poderes, escrituras, actas, exhortos, oficios, contratos, documentos societarios, balances, estudios técnicos y científicos y patentes de invención.',
   },
   {
     title: 'Revisión y corrección',
-    description: '¿Tenés una traducción hecha? La reviso, corrijo errores y pulo el estilo.',
+    description: 'Reviso y corrijo textos para mejorar su claridad, coherencia, gramática y estilo.',
   },
 ];
 
@@ -91,14 +92,14 @@ export const testimonials = [
     detail: 'Documentos personales',
   },
   {
-    quote: 'Mi paper sonaba natural en inglés, como si lo hubiera escrito un nativo.',
+    quote: 'Necesitaba el analítico traducido para una beca y lo tuve en tiempo y forma.',
     author: '[Cliente]',
-    detail: 'Texto académico',
+    detail: 'Documentos académicos',
   },
   {
     quote: 'Súper clara con los plazos y muy atenta a cada detalle.',
     author: '[Cliente]',
-    detail: 'Contenido web',
+    detail: 'Documentos jurídicos',
   },
 ];
 
