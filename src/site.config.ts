@@ -60,7 +60,7 @@ export const signatureGuide = {
       icon: 'download',
       title: 'Descargá el PDF',
       description:
-        'Guardalo en tu computadora. Contiene varios documentos embebidos, uno adentro del otro: la legalización del Colegio de Traductores Públicos de la Ciudad de Buenos Aires, la traducción y el documento original.',
+        'Guardalo en tu computadora. Contiene varios documentos embebidos, uno adentro del otro: la legalización del Colegio de Traductores Públicos de la Ciudad de Buenos Aires (en caso de que cuente con una), la traducción y el documento original.',
     },
     {
       icon: 'pen',
