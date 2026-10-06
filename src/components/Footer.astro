@@ -14,7 +14,10 @@ const year = new Date().getFullYear();
       {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
     </ul>
   </div>
-  <p class="container legal">© {year} {site.name}</p>
+  <div class="container legal">
+    <p>© {year} {site.name}</p>
+    <p class="credit">Diseño y desarrollo: Federico Villace</p>
+  </div>
 </footer>
 
 <style>
@@ -59,9 +62,23 @@ const year = new Date().getFullYear();
   }
 
   .legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
     margin-top: 2.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid rgb(242 238 232 / 0.25);
     font-size: 0.875rem;
+  }
+
+  .legal p {
+    margin: 0;
+  }
+
+  /* Discreto para no competir con la marca del cliente (sigue arriba de 7:1) */
+  .credit {
+    font-size: 0.8rem;
+    opacity: 0.75;
   }
 </style>
