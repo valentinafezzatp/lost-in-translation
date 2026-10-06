@@ -5,17 +5,20 @@ import { about, site } from '../site.config';
 <section id="sobre-mi" class="section about">
   <div class="container grid">
     <div class="frame gingham">
-      <div class="photo-placeholder">otra foto acá</div>
+      <img src={about.photo} alt={`Foto de ${site.firstName}`} width="900" height="900" loading="lazy" />
       <span class="note">that's me!</span>
     </div>
 
     <div>
       <span class="eyebrow">nice to meet you</span>
-      <h2>Hola, soy <em>{site.firstName}</em></h2>
+      <h2>¡Hola, soy <em>{site.firstName}</em>!</h2>
       {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
       <ul class="credentials">
         {about.credentials.map((credential) => <li class="pill">{credential}</li>)}
       </ul>
+      <a class="btn btn-ghost ctpcba" href={about.ctpcbaUrl} target="_blank" rel="noopener">
+        Ver mi perfil en el Colegio de Traductores Públicos <span aria-hidden="true">↗</span>
+      </a>
     </div>
   </div>
 </section>
@@ -41,7 +44,13 @@ import { about, site } from '../site.config';
     overflow: hidden;
   }
 
-  .frame .photo-placeholder {
+  /* La foto es cuadrada: se recorta a 4:5 priorizando la cara */
+  .frame img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 20%;
     border-radius: 50% 50% 0.5rem 0.5rem;
   }
 
@@ -65,6 +74,11 @@ import { about, site } from '../site.config';
     margin: 1.5rem 0 0;
     padding: 0;
     list-style: none;
+  }
+
+  .ctpcba {
+    margin-top: 2rem;
+    background: var(--cream);
   }
 
   @media (max-width: 820px) {

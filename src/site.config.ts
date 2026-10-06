@@ -3,7 +3,7 @@
 
 export const site = {
   name: 'Lost in Translation',
-  firstName: '[Nombre]',
+  firstName: 'Valentina',
   since: 2024,
   tagline: 'Traducciones inglés ⇄ español',
   description:
@@ -78,11 +78,14 @@ export const signatureGuide = {
 } as const;
 
 export const about = {
+  photo: '/foto-perfil.jpeg',
+  // El "¡Hola, soy Valentina!" ya está en el título de la sección
   paragraphs: [
-    '[Breve presentación: quién es, su formación y cómo llegó a la traducción.]',
-    '[Especialidades y forma de trabajo. Dos o tres oraciones alcanzan.]',
+    'Soy Traductora Pública de inglés, egresada de la Universidad de Buenos Aires (UBA). Mi formación combina el estudio de la traducción con una sólida formación en el ámbito jurídico y un especial interés por el lenguaje y la literatura.',
   ],
-  credentials: ['[Título]', '[Especialidad]', `Traduciendo desde ${site.since}`],
+  credentials: ['Traductora Pública de inglés', 'Egresada de la UBA'],
+  // Perfil en el registro de matriculados del Colegio de Traductores Públicos
+  ctpcbaUrl: 'https://www.traductores.org.ar/traductor/fezza-valentina/',
 };
 
 export const testimonials = [
