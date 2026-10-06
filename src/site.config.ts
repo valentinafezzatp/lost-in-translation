@@ -43,10 +43,10 @@ export const services = [
 ];
 
 export const steps = [
-  { title: 'Me escribís', description: 'Por WhatsApp o mail, contándome qué necesitás traducir y para cuándo.' },
-  { title: 'Presupuesto', description: 'Te paso precio y plazo de entrega, sin compromiso.' },
-  { title: 'Traducción', description: 'Trabajo el texto cuidando sentido, tono y terminología.' },
-  { title: 'Entrega', description: 'Recibís el archivo listo, con una revisión final incluida.' },
+  { title: 'Me escribís', description: 'Por WhatsApp o mail: contame qué necesitás traducir y para cuándo.' },
+  { title: 'Presupuesto', description: 'Armo un presupuesto detallado junto con el plazo estimado de entrega.' },
+  { title: 'Traducción', description: 'Cada traducción respeta el sentido y el propósito del texto original.' },
+  { title: 'Entrega', description: 'Recibís tu traducción lista para presentar, en el formato acordado.' },
 ];
 
 // Instructivo para abrir y verificar una traducción legalizada con firma digital
