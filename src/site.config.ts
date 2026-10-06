@@ -16,6 +16,7 @@ export const site = {
 export const nav = [
   { label: 'Servicios', href: '/#servicios' },
   { label: 'Cómo trabajo', href: '/#como-trabajo' },
+  { label: 'Firma digital', href: '/#firma-digital' },
   { label: 'Sobre mí', href: '/#sobre-mi' },
   { label: 'Blog', href: '/blog' },
   { label: 'Preguntas', href: '/#preguntas' },
@@ -46,6 +47,34 @@ export const steps = [
   { title: 'Traducción', description: 'Trabajo el texto cuidando sentido, tono y terminología.' },
   { title: 'Entrega', description: 'Recibís el archivo listo, con una revisión final incluida.' },
 ];
+
+// Instructivo para abrir y verificar una traducción legalizada con firma digital
+export const signatureGuide = {
+  pdf: '/instructivo-firma-digital.pdf',
+  preview: '/instructivo-firma-digital.jpg',
+  downloadName: 'Como-ver-una-traduccion-con-firma-digital.pdf',
+  verifyUrl: 'https://www.traductores.org.ar/publico/como-verifico-una-legalizacion-digital/',
+  steps: [
+    {
+      icon: 'download',
+      title: 'Descargá el PDF',
+      description:
+        'Guardalo en tu computadora. Contiene varios documentos embebidos, uno adentro del otro: la legalización del Colegio de Traductores Públicos de la Ciudad de Buenos Aires, la traducción y el documento original.',
+    },
+    {
+      icon: 'pen',
+      title: 'Revisá las firmas',
+      description:
+        'Abrilo con Adobe Acrobat Reader o un programa similar y hacé clic en el ícono de la lapicera. Vas a ver una leyenda que indica que está firmado digitalmente y que las firmas son válidas.',
+    },
+    {
+      icon: 'clip',
+      title: 'Abrí los adjuntos',
+      description:
+        'Hacé clic en el ícono del clip (Adjuntos) para ver los documentos. Repetí el proceso hasta llegar al documento original.',
+    },
+  ],
+} as const;
 
 export const about = {
   paragraphs: [
