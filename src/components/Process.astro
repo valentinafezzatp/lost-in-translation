@@ -24,15 +24,16 @@ import { steps } from '../site.config';
 </section>
 
 <style>
+  /* Sobre un rosa tan saturado, la tinta normal (~5:1) se siente floja: se usa la fuerte */
   .process {
     background: var(--pink);
     border-block: 2px solid var(--ink);
+    color: var(--ink-strong);
   }
 
-  /* Sobre rosa, el acento magenta no contrasta: se usa la tinta */
   .process .eyebrow,
   .process h2 em {
-    color: var(--ink);
+    color: var(--ink-strong);
   }
 
   .steps {
@@ -57,7 +58,9 @@ import { steps } from '../site.config';
     font-size: 1.5rem;
   }
 
+  /* Trazo más grueso: el 400 fino "vibra" sobre el rosa */
   p {
     margin: 0;
+    font-weight: 500;
   }
 </style>
