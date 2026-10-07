@@ -12,6 +12,9 @@ export type QuoteRequest = {
   deadline: string;
   message: string;
   file_link: string;
+  // Token del reCAPTCHA v2: EmailJS lo valida en su servidor con la secret key
+  // configurada en el template (Settings → Enable reCAPTCHA V2 verification)
+  'g-recaptcha-response'?: string;
 };
 
 export async function sendQuoteRequest(params: QuoteRequest): Promise<void> {

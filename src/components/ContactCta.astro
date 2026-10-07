@@ -2,6 +2,9 @@
 import WhatsAppIcon from './WhatsAppIcon.astro';
 import { site, services } from '../site.config';
 import { waLink } from '../lib/whatsapp';
+
+// Sin site key el formulario funciona igual, solo que sin captcha
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 ---
 
 <section class="cta" id="contacto">
@@ -15,65 +18,144 @@ import { waLink } from '../lib/whatsapp';
       </a>
     </div>
 
-    <form class="card" id="quote-form" novalidate>
-      <h3>Pedí tu presupuesto por mail</h3>
+    <div class="panel">
+      <form class="card" id="quote-form" novalidate>
+        <h3>Pedí tu presupuesto por mail</h3>
 
-      <div class="row">
+        <div class="row">
+          <label>
+            Nombre
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+        </div>
+
         <label>
-          Nombre
-          <input name="name" type="text" autocomplete="name" required />
+          Tipo de traducción
+          <select name="service" required>
+            <option value="" disabled selected>Elegí una opción</option>
+            {services.map((s) => <option>{s.title}</option>)}
+            <option>Otro</option>
+          </select>
         </label>
+
+        <div class="row">
+          <label>
+            Palabras o páginas <span class="opt">(aprox.)</span>
+            <input name="length" type="text" placeholder="Ej: 3 páginas" />
+          </label>
+          <label>
+            Plazo
+            <input name="deadline" type="text" placeholder="Ej: viernes 10/10" />
+          </label>
+        </div>
+
         <label>
-          Email
-          <input name="email" type="email" autocomplete="email" required />
+          Mensaje
+          <textarea name="message" rows="4" required placeholder="Contame de qué se trata el texto"></textarea>
         </label>
+
+        <label>
+          Link al archivo <span class="opt">(opcional: Drive, WeTransfer…)</span>
+          <input name="file_link" type="url" placeholder="https://" />
+        </label>
+
+        <!-- Honeypot: invisible para personas, los bots lo completan -->
+        <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        {
+          recaptchaSiteKey && (
+            <>
+              <div class="g-recaptcha" data-sitekey={recaptchaSiteKey} />
+              <script is:inline src="https://www.google.com/recaptcha/api.js?hl=es" async defer />
+            </>
+          )
+        }
+
+        <button class="btn btn-primary" type="submit">Enviar consulta</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="card success" id="quote-success" hidden>
+        <span class="check" aria-hidden="true">✓</span>
+        <h3 tabindex="-1">¡Consulta enviada!</h3>
+        <p>Gracias por escribirme. Te respondo a <strong data-email></strong> a la brevedad.</p>
+        <p class="hint">Si no ves mi respuesta, revisá la carpeta de spam.</p>
+        <button class="btn btn-ghost" type="button" data-again>Enviar otra consulta</button>
       </div>
-
-      <label>
-        Tipo de traducción
-        <select name="service" required>
-          <option value="" disabled selected>Elegí una opción</option>
-          {services.map((s) => <option>{s.title}</option>)}
-          <option>Otro</option>
-        </select>
-      </label>
-
-      <div class="row">
-        <label>
-          Palabras o páginas <span class="opt">(aprox.)</span>
-          <input name="length" type="text" placeholder="Ej: 3 páginas" />
-        </label>
-        <label>
-          Plazo
-          <input name="deadline" type="text" placeholder="Ej: viernes 10/10" />
-        </label>
-      </div>
-
-      <label>
-        Mensaje
-        <textarea name="message" rows="4" required placeholder="Contame de qué se trata el texto"></textarea>
-      </label>
-
-      <label>
-        Link al archivo <span class="opt">(opcional: Drive, WeTransfer…)</span>
-        <input name="file_link" type="url" placeholder="https://" />
-      </label>
-
-      <!-- Honeypot: invisible para personas, los bots lo completan -->
-      <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-      <button class="btn btn-primary" type="submit">Enviar consulta</button>
-      <p class="status" role="status" aria-live="polite"></p>
-    </form>
+    </div>
   </div>
 </section>
 
 <script>
   import { sendQuoteRequest } from '../lib/emailjs';
+  import { cooldownRemaining, isTooFast } from '../lib/spam-guard';
+
+  declare global {
+    interface Window {
+      grecaptcha?: { getResponse(): string; reset(): void };
+    }
+  }
+
+  const LAST_SENT_KEY = 'quote-last-sent';
+
+  // localStorage puede no estar disponible (modo privado, bloqueos): se degrada sin cooldown
+  const readLastSent = () => {
+    try {
+      const value = Number(localStorage.getItem(LAST_SENT_KEY));
+      return value > 0 ? value : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const writeLastSent = (timestamp: number) => {
+    try {
+      localStorage.setItem(LAST_SENT_KEY, String(timestamp));
+    } catch {
+      // Sin storage no hay cooldown; el envío ya salió igual
+    }
+  };
 
   const form = document.querySelector<HTMLFormElement>('#quote-form');
   const status = form?.querySelector<HTMLParagraphElement>('.status');
   const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const success = document.querySelector<HTMLDivElement>('#quote-success');
+  const successEmail = success?.querySelector<HTMLElement>('[data-email]');
+  const usesRecaptcha = Boolean(form?.querySelector('.g-recaptcha'));
+
+  // Primera interacción real con el formulario: base de la trampa de tiempo
+  let startedAt: number | null = null;
+  form?.addEventListener('focusin', () => {
+    startedAt ??= Date.now();
+  });
+
+  const showError = (message: string) => {
+    if (!status) return;
+    status.dataset.state = 'error';
+    status.textContent = message;
+  };
+
+  const showSuccess = (email: string) => {
+    if (!form || !success || !successEmail || !status) return;
+    successEmail.textContent = email;
+    status.textContent = '';
+    form.hidden = true;
+    success.hidden = false;
+    // Mover el foco anuncia el cambio a lectores de pantalla y lo deja a la vista
+    success.querySelector<HTMLElement>('h3')?.focus();
+  };
+
+  success?.querySelector('[data-again]')?.addEventListener('click', () => {
+    if (!form || !success) return;
+    success.hidden = true;
+    form.hidden = false;
+    startedAt = null;
+    form.querySelector<HTMLInputElement>('input')?.focus();
+  });
 
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -86,10 +168,24 @@ import { waLink } from '../lib/whatsapp';
 
     const data = new FormData(form);
     const field = (key: string) => String(data.get(key) ?? '').trim();
+    const now = Date.now();
 
-    // Bot detectado: se simula éxito sin gastar un request
-    if (field('company')) {
+    // Bot detectado (honeypot o completado instantáneo): se simula éxito sin gastar un request
+    if (field('company') || isTooFast(startedAt, now)) {
       form.reset();
+      showSuccess(field('email'));
+      return;
+    }
+
+    const remaining = cooldownRemaining(readLastSent(), now);
+    if (remaining > 0) {
+      showError(`Ya enviaste una consulta hace instantes. Podés mandar otra en ${Math.ceil(remaining / 1000)} segundos.`);
+      return;
+    }
+
+    const recaptchaToken = usesRecaptcha ? (window.grecaptcha?.getResponse() ?? '') : '';
+    if (usesRecaptcha && !recaptchaToken) {
+      showError('Marcá la casilla "No soy un robot" para enviar la consulta.');
       return;
     }
 
@@ -107,16 +203,18 @@ import { waLink } from '../lib/whatsapp';
         deadline: field('deadline') || '—',
         message: field('message'),
         file_link: field('file_link') || '—',
+        ...(usesRecaptcha && { 'g-recaptcha-response': recaptchaToken }),
       });
+      writeLastSent(Date.now());
       form.reset();
-      status.dataset.state = 'ok';
-      status.textContent = '¡Listo! Recibí tu consulta y te respondo por mail a la brevedad.';
+      showSuccess(field('email'));
     } catch (error) {
       console.error(error);
-      status.dataset.state = 'error';
-      status.textContent = 'No se pudo enviar. Probá de nuevo o escribime por WhatsApp.';
+      showError('No se pudo enviar. Probá de nuevo o escribime por WhatsApp.');
     } finally {
       button.disabled = false;
+      // Cada token del captcha sirve para un solo envío
+      if (usesRecaptcha) window.grecaptcha?.reset();
     }
   });
 </script>
@@ -160,6 +258,10 @@ import { waLink } from '../lib/whatsapp';
     color: var(--lime);
   }
 
+  .panel {
+    min-width: 0;
+  }
+
   .card {
     display: grid;
     gap: 1rem;
@@ -168,6 +270,11 @@ import { waLink } from '../lib/whatsapp';
     border: 2px solid var(--ink);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+  }
+
+  /* display: grid le gana al [hidden] del navegador */
+  .card[hidden] {
+    display: none;
   }
 
   .card h3 {
@@ -243,11 +350,42 @@ import { waLink } from '../lib/whatsapp';
     font-weight: 500;
   }
 
-  .status[data-state='ok'] {
-    color: #1f6b2a;
-  }
-
   .status[data-state='error'] {
     color: var(--magenta);
+  }
+
+  /* Tarjeta de confirmación */
+  .success {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .success p {
+    margin: 0;
+  }
+
+  .success h3:focus {
+    outline: none;
+  }
+
+  .check {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: var(--lime);
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  .hint {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  .success .btn {
+    margin-top: 0.5rem;
   }
 </style>
