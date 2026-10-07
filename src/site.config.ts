@@ -11,6 +11,10 @@ export const site = {
   // Formato internacional sin +, espacios ni guiones. Ej: 5491112345678
   whatsapp: '5491136070161',
   whatsappMessage: '¡Hola! Quiero pedir un presupuesto de traducción.',
+  instagram: {
+    handle: '__.lostintranslation__',
+    url: 'https://www.instagram.com/__.lostintranslation__/',
+  },
 };
 
 export const nav = [

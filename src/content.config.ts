@@ -9,6 +9,8 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     tag: z.string().optional(),
+    // Post original, cuando el artículo nace de un carrusel de Instagram
+    instagram: z.url().optional(),
   }),
 });
 

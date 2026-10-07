@@ -9,6 +9,9 @@ const year = new Date().getFullYear();
     <div>
       <p class="logo">{site.name}</p>
       <p class="tagline">{site.tagline}</p>
+      <a class="instagram" href={site.instagram.url} target="_blank" rel="noopener">
+        Instagram: @{site.instagram.handle}
+      </a>
     </div>
     <ul>
       {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
