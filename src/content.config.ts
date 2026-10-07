@@ -11,6 +11,15 @@ const blog = defineCollection({
     tag: z.string().optional(),
     // Post original, cuando el artículo nace de un carrusel de Instagram
     instagram: z.url().optional(),
+    // Imagen en public/; por defecto el formato 4:5 de los posts de Instagram
+    cover: z
+      .object({
+        src: z.string().startsWith('/'),
+        alt: z.string(),
+        width: z.number().default(1080),
+        height: z.number().default(1350),
+      })
+      .optional(),
   }),
 });
 

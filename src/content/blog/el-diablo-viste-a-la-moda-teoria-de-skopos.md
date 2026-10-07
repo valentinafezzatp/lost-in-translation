@@ -4,6 +4,9 @@ description: ¿Por qué "The Devil Wears Prada" no se tradujo literalmente? Cuan
 pubDate: 2026-05-03
 tag: Teoría de la traducción
 instagram: https://www.instagram.com/p/DX4oHLNEbiR/
+cover:
+  src: /portadas/devils-prada.jpeg
+  alt: 'Portada estilo revista "Lost in Translation" con Miranda Priestly: El diablo viste a la moda y la teoría de Skopos.'
 ---
 
 ¿Por qué *The Devil Wears Prada* no se traduce literalmente? Porque, a veces, traducir no es ser fiel.

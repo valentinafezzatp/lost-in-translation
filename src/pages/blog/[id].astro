@@ -15,11 +15,11 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, tag, instagram } = post.data;
+const { title, description, pubDate, tag, instagram, cover } = post.data;
 const { Content } = await render(post);
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} image={cover}>
   <article class="section">
     <div class="container narrow">
       <a class="back" href="/blog">← Volver al blog</a>
@@ -28,6 +28,13 @@ const { Content } = await render(post);
         <h1>{title}</h1>
         <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
       </header>
+      {
+        cover && (
+          <figure class="cover">
+            <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} />
+          </figure>
+        )
+      }
       <div class="prose">
         <Content />
       </div>
@@ -101,6 +108,22 @@ const { Content } = await render(post);
     padding: 0.1rem 0.4rem;
     background: var(--beige);
     border-radius: 0.3rem;
+  }
+
+  /* Portada tipo polaroid, como en el hero */
+  .cover {
+    max-width: 26rem;
+    margin: 0 auto 3rem;
+    padding: 0.75rem;
+    background: #fff;
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    transform: rotate(-1.5deg);
+  }
+
+  .cover img {
+    width: 100%;
+    height: auto;
   }
 
   .instagram {

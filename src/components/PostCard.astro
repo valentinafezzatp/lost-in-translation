@@ -7,10 +7,14 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, tag } = post.data;
+const { title, description, pubDate, tag, cover } = post.data;
 ---
 
 <article class="card">
+  {
+    // Decorativa: el título de la tarjeta ya dice lo mismo
+    cover && <img class="thumb" src={cover.src} alt="" width={cover.width} height={cover.height} loading="lazy" />
+  }
   {tag && <span class="pill">{tag}</span>}
   <h3><a href={`/blog/${post.id}`}>{title}</a></h3>
   <p>{description}</p>
@@ -35,6 +39,18 @@ const { title, description, pubDate, tag } = post.data;
   .card:hover {
     transform: translate(-3px, -3px);
     box-shadow: var(--shadow);
+  }
+
+  /* Portada a sangre arriba de la tarjeta, recortada en cuadrado */
+  .thumb {
+    width: calc(100% + 3.5rem);
+    max-width: none;
+    height: auto;
+    aspect-ratio: 1;
+    margin: -1.75rem -1.75rem 1.5rem;
+    object-fit: cover;
+    border-bottom: 2px solid var(--ink);
+    border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0;
   }
 
   h3 {

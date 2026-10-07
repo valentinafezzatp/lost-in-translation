@@ -4,6 +4,9 @@ description: La palabra probation existe en Argentina y en Estados Unidos, pero 
 pubDate: 2026-01-19
 tag: Traducción jurídica
 instagram: https://www.instagram.com/p/DTsrLoJERRC/
+cover:
+  src: /portadas/false-friends.jpeg
+  alt: 'Portada rosa a rayas con Elle Woods y la frase "What, like it''s hard?": False friends en la traducción jurídica.'
 ---
 
 La palabra *probation* existe tanto en Argentina como en Estados Unidos, pero no son lo mismo ni funcionan igual.
