@@ -1,5 +1,5 @@
 ---
-import { faqs } from '../site.config';
+import { faqs, payment } from '../site.config';
 ---
 
 <section id="preguntas" class="section">
@@ -10,15 +10,59 @@ import { faqs } from '../site.config';
     </div>
 
     {
-      faqs.map(({ question, answer }) => (
+      faqs.map(({ question, answer, showPayment }) => (
         <details>
           <summary>{question}</summary>
           <p>{answer}</p>
+          {showPayment && (
+            <div class="payment">
+              {payment.accounts.map(({ name, fields, link }) => (
+                <div class="account">
+                  <h3>{name}</h3>
+                  <dl>
+                    {fields.map(({ label, value }) => (
+                      <div class="row">
+                        <dt>{label}</dt>
+                        <dd>
+                          <span class="value">{value}</span>
+                          <button type="button" class="copy" data-copy={value} aria-label={`Copiar ${label}`}>
+                            Copiar
+                          </button>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                  {link && (
+                    <a class="mp-link" href={link.href} target="_blank" rel="noopener">
+                      {link.label} →
+                    </a>
+                  )}
+                </div>
+              ))}
+              <p class="holder">
+                Titular: <strong>{payment.holder}</strong> · CUIL {payment.cuil}
+              </p>
+            </div>
+          )}
         </details>
       ))
     }
   </div>
 </section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+        btn.textContent = '¡Copiado!';
+        setTimeout(() => (btn.textContent = 'Copiar'), 1800);
+      } catch {
+        btn.textContent = 'No se pudo copiar';
+      }
+    });
+  });
+</script>
 
 <style>
   .narrow {
@@ -56,5 +100,80 @@ import { faqs } from '../site.config';
 
   details p {
     padding-bottom: 1rem;
+  }
+
+  .payment {
+    display: grid;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .account {
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1rem 1.25rem;
+  }
+
+  .account h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+  }
+
+  dl {
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .value {
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+
+  .copy {
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 0.15rem 0.7rem;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: var(--lime);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .mp-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    color: var(--magenta);
+    font-weight: 700;
+  }
+
+  .payment .holder {
+    padding-bottom: 0;
+    margin: 0;
+    font-size: 0.95rem;
   }
 </style>

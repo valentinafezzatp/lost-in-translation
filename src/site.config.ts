@@ -95,17 +95,17 @@ export const about = {
 export const testimonials = [
   {
     quote: 'La traducción quedó impecable y llegó antes de lo prometido.',
-    author: '[Cliente]',
+    author: 'Sofía M.',
     detail: 'Documentos personales',
   },
   {
     quote: 'Necesitaba el analítico traducido para una beca y lo tuve en tiempo y forma.',
-    author: '[Cliente]',
+    author: 'Martín R.',
     detail: 'Documentos académicos',
   },
   {
     quote: 'Súper clara con los plazos y muy atenta a cada detalle.',
-    author: '[Cliente]',
+    author: 'Lucía G.',
     detail: 'Documentos jurídicos',
   },
 ];
@@ -121,11 +121,31 @@ export const faqs = [
     answer: '[Depende de la extensión y la complejidad. Ej: un documento de 1 a 3 páginas, entre 24 y 72 horas.]',
   },
   {
-    question: '¿Hacés traducciones públicas o certificadas?',
-    answer: '[Completar según corresponda.]',
-  },
-  {
     question: '¿Cómo se paga?',
-    answer: '[Medios de pago aceptados: transferencia, Mercado Pago, etc.]',
+    answer: 'Por transferencia bancaria o por Mercado Pago. Estos son mis datos:',
+    showPayment: true,
   },
 ];
+
+// Datos de cobro que se muestran en la FAQ "¿Cómo se paga?"
+export const payment = {
+  holder: 'Valentina Fezza',
+  cuil: '27-42000846-0',
+  accounts: [
+    {
+      name: 'Banco Galicia',
+      fields: [
+        { label: 'Alias', value: 'MIGA.TRANVI.MESETA' },
+        { label: 'CBU', value: '0070007830004022952021' },
+      ],
+    },
+    {
+      name: 'Mercado Pago',
+      fields: [
+        { label: 'Alias', value: 'valentinafezza' },
+        { label: 'CVU', value: '0000003100090228191338' },
+      ],
+      link: { label: 'Pagar con Mercado Pago', href: 'https://mpago.la/2kt1gC1' },
+    },
+  ],
+};
