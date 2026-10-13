@@ -134,6 +134,8 @@ export const payment = {
   accounts: [
     {
       name: 'Banco Galicia',
+      // El logo ya dice "Galicia": reemplaza al nombre
+      logo: { src: '/logos/galicia.png', width: 663, height: 169, replacesName: true },
       fields: [
         { label: 'Alias', value: 'MIGA.TRANVI.MESETA' },
         { label: 'CBU', value: '0070007830004022952021' },
@@ -141,6 +143,7 @@ export const payment = {
     },
     {
       name: 'Mercado Pago',
+      logo: { src: '/logos/mercadopago.svg', width: 24, height: 24, replacesName: false },
       fields: [
         { label: 'Alias', value: 'valentinafezza' },
         { label: 'CVU', value: '0000003100090228191338' },
