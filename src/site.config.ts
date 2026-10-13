@@ -118,7 +118,7 @@ export const faqs = [
   },
   {
     question: '¿Cuánto tarda una traducción?',
-    answer: '[Depende de la extensión y la complejidad. Ej: un documento de 1 a 3 páginas, entre 24 y 72 horas.]',
+    answer: 'Depende de la extensión y la complejidad. Por ejemplo, un documento de 1 a 3 páginas lleva entre 24 y 72 horas.',
   },
   {
     question: '¿Cómo se paga?',
